@@ -329,6 +329,14 @@
             margin-right: 6px;
         }
 
+        .plain-line {
+            color: #374151;
+            font-size: 0.9em;
+            line-height: 1.6;
+            margin-bottom: 4px;
+            padding-left: 0;
+        }
+
         .item-title {
             font-weight: 600;
             color: #92400e;
@@ -1712,11 +1720,11 @@
                     if (lines.length > 1) {
                         descElement.innerHTML = lines.map(line => {
                             const trimmed = line.trim();
-                            // Check if line already starts with - or •
+                            // Only add bullet if line starts with - or •
                             if (trimmed.startsWith('-') || trimmed.startsWith('•')) {
                                 return `<div class="list-item">${trimmed.substring(1).trim()}</div>`;
                             } else {
-                                return `<div class="list-item">${trimmed}</div>`;
+                                return `<div class="plain-line">${trimmed}</div>`;
                             }
                         }).join('');
                     }
