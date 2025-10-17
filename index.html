@@ -278,19 +278,29 @@
             width: 100%;
             padding: 10px;
             margin-top: 10px;
-            background: #f9f9f9;
-            border: 2px dashed #e0e0e0;
-            color: #666666;
+            background: #f9f9f9 !important;
+            border: 2px dashed #e0e0e0 !important;
+            color: #666666 !important;
             cursor: pointer;
             transition: all 0.2s ease;
             font-size: 14px;
+            box-shadow: none !important;
+            outline: none !important;
         }
         
         .add-item-btn:hover {
-            background: #ffffff;
-            color: #000000;
-            border-color: #000000;
-            border-style: solid;
+            background: #ffffff !important;
+            color: #000000 !important;
+            border-color: #000000 !important;
+            border-style: solid !important;
+        }
+        
+        .add-item-btn:focus {
+            background: #f9f9f9 !important;
+            color: #666666 !important;
+            border-color: #e0e0e0 !important;
+            border-style: dashed !important;
+            outline: none !important;
         }
 
         .content-item::before {
