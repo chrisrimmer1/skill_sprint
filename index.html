@@ -304,11 +304,11 @@
         }
 
         .content-item::before {
-            content: "▶";
+            content: "•";
             color: #d97706;
             font-weight: bold;
             margin-right: 8px;
-            font-size: 0.8em;
+            font-size: 1.2em;
         }
 
         .item-title {
@@ -1458,10 +1458,10 @@
 
         async function updateGitHubFile(content, commitMessage) {
             try {
-                // Get current file to get SHA
-                const currentContent = await getCurrentFileContent();
-                if (!currentContent) {
-                    throw new Error('Could not fetch current file content');
+                // Get current file SHA first
+                const sha = await getFileSHA();
+                if (!sha) {
+                    throw new Error('Could not get file SHA. Check your repository name and permissions.');
                 }
 
                 // Encode content to base64
@@ -1477,7 +1477,7 @@
                     body: JSON.stringify({
                         message: commitMessage,
                         content: encodedContent,
-                        sha: await getFileSHA()
+                        sha: sha
                     })
                 });
 
@@ -1486,7 +1486,8 @@
                     return { success: true, commit: data.commit };
                 } else {
                     const error = await response.json();
-                    throw new Error(error.message || 'Failed to update file');
+                    console.error('GitHub API Error:', error);
+                    throw new Error(error.message || `GitHub API error: ${response.status}`);
                 }
             } catch (error) {
                 console.error('Error updating GitHub file:', error);
@@ -1527,6 +1528,15 @@
                 publishBtn.disabled = true;
             }
 
+            // Add timeout protection
+            const timeoutId = setTimeout(() => {
+                if (publishBtn) {
+                    publishBtn.textContent = 'Save & Publish to GitHub';
+                    publishBtn.disabled = false;
+                }
+                showNotification('Publishing timed out. Please try again.', 'error');
+            }, 30000); // 30 second timeout
+
             try {
                 // Get current HTML content
                 const currentHTML = document.documentElement.outerHTML;
@@ -1538,6 +1548,8 @@
                 // Update file on GitHub
                 const result = await updateGitHubFile(currentHTML, commitMessage);
 
+                clearTimeout(timeoutId);
+
                 if (result.success) {
                     showNotification('Successfully published to GitHub! Changes will be live in 1-2 minutes.');
                     updateLastPublishedTime();
@@ -1545,6 +1557,7 @@
                     showNotification(`Failed to publish: ${result.error}`, 'error');
                 }
             } catch (error) {
+                clearTimeout(timeoutId);
                 showNotification(`Error publishing: ${error.message}`, 'error');
             } finally {
                 // Reset button state
@@ -1632,6 +1645,23 @@
             link.click();
             showNotification('Backup exported successfully!');
         }
+
+        // Reset button state function
+        function resetPublishButton() {
+            const publishBtn = document.getElementById('publishBtn');
+            if (publishBtn) {
+                publishBtn.textContent = 'Save & Publish to GitHub';
+                publishBtn.disabled = false;
+            }
+        }
+
+        // Add keyboard shortcut to reset button if stuck
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'r') {
+                resetPublishButton();
+                showNotification('Publish button reset');
+            }
+        });
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
