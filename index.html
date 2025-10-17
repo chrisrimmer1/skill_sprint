@@ -304,11 +304,7 @@
         }
 
         .content-item::before {
-            content: "•";
-            color: #d97706;
-            font-weight: bold;
-            margin-right: 8px;
-            font-size: 1.2em;
+            content: "";
         }
 
         .item-desc {
@@ -317,7 +313,14 @@
             line-height: 1.4;
         }
 
-        .item-desc::before {
+        .list-item {
+            color: #374151;
+            font-size: 0.9em;
+            line-height: 1.4;
+            margin-bottom: 2px;
+        }
+
+        .list-item::before {
             content: "- ";
             color: #d97706;
             font-weight: bold;
@@ -1695,6 +1698,18 @@
             const contentItems = document.querySelectorAll('.content-item');
             contentItems.forEach(item => {
                 item.classList.add('editable');
+                
+                // Convert description text to list format
+                const descElement = item.querySelector('.item-desc');
+                if (descElement) {
+                    const text = descElement.textContent;
+                    // Split by common separators and create list items
+                    const lines = text.split(/[,;]|(?:\s+and\s+)/).filter(line => line.trim());
+                    if (lines.length > 1) {
+                        descElement.innerHTML = lines.map(line => `<div class="list-item">${line.trim()}</div>`).join('');
+                    }
+                }
+                
                 item.addEventListener('click', function() {
                     if (isAuthenticated) {
                         openEditModal(this);
