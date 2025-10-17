@@ -1752,13 +1752,21 @@
             const title = element.querySelector('.item-title').textContent;
             const descElement = element.querySelector('.item-desc');
             
-            // Check if description has been converted to list items
+            // Check if description has been converted to list items or plain lines
             const listItems = descElement.querySelectorAll('.list-item');
+            const plainLines = descElement.querySelectorAll('.plain-line');
             let description;
             
-            if (listItems.length > 0) {
-                // Join list items with line breaks for editing
-                description = Array.from(listItems).map(item => '- ' + item.textContent.trim()).join('\n');
+            if (listItems.length > 0 || plainLines.length > 0) {
+                // Join all children preserving bullets where appropriate
+                const allLines = Array.from(descElement.children);
+                description = allLines.map(child => {
+                    if (child.classList.contains('list-item')) {
+                        return '- ' + child.textContent.trim();
+                    } else {
+                        return child.textContent.trim();
+                    }
+                }).join('\n');
             } else {
                 description = descElement.textContent;
             }
@@ -1793,10 +1801,14 @@
                 const lines = description.split('\n').map(s => s.trim()).filter(s => s);
                 
                 if (lines.length > 1) {
-                    // Convert each line to a list item, removing leading - or • if present
+                    // Convert each line - add bullet only if it starts with -
                     descElement.innerHTML = lines.map(line => {
-                        const cleaned = line.replace(/^[-•]\s*/, '');
-                        return `<div class="list-item">${cleaned}</div>`;
+                        if (line.startsWith('-') || line.startsWith('•')) {
+                            const cleaned = line.replace(/^[-•]\s*/, '');
+                            return `<div class="list-item">${cleaned}</div>`;
+                        } else {
+                            return `<div class="plain-line">${line}</div>`;
+                        }
                     }).join('');
                 } else {
                     descElement.textContent = description;
