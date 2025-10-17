@@ -1105,9 +1105,18 @@
         <h3 style="margin-bottom: 20px; color: #1e293b;">Canvas Tools</h3>
         
         <div class="toolbar">
-            <button class="btn" onclick="saveCanvas()">💾 Save</button>
-            <button class="btn btn-secondary" onclick="loadCanvas()">📁 Load</button>
-            <button class="btn btn-success" onclick="exportCanvas()">📤 Export</button>
+            <button class="btn" onclick="saveCanvas()">💾 Save Locally</button>
+            <button class="btn btn-success" id="publishBtn" onclick="saveAndPublishToGitHub()">🚀 Save & Publish to GitHub</button>
+            <button class="btn btn-secondary" onclick="exportCanvas()">📤 Export Backup</button>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <button class="btn" onclick="openGitHubConfig()" style="width: 100%; margin-bottom: 10px;">🔧 Configure GitHub</button>
+            <button class="btn btn-secondary" onclick="loadBackup()" style="width: 100%;">📁 Load Backup</button>
+        </div>
+
+        <div id="lastPublished" style="background: rgba(16, 185, 129, 0.1); padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 12px; color: #374151;">
+            Last published: Never
         </div>
 
         <input type="text" class="search-box" placeholder="🔍 Search content..." onkeyup="searchContent(this.value)">
@@ -1244,6 +1253,35 @@
         </div>
     </div>
 
+    <!-- GitHub Configuration Modal -->
+    <div class="modal" id="githubConfigModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🔧 GitHub Configuration</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">GitHub Username:</label>
+                <input type="text" class="form-input" id="githubUsername" placeholder="your-username">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Repository Name:</label>
+                <input type="text" class="form-input" id="githubRepo" placeholder="skill_sprint" value="skill_sprint">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Personal Access Token:</label>
+                <input type="password" class="form-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                <small style="color: #64748b; font-size: 0.8em; margin-top: 5px; display: block;">
+                    Create a fine-grained token with "Contents: Read and write" permission for this repository only.
+                </small>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn" onclick="saveGitHubConfig()">Save Configuration</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Password Prompt Modal -->
     <div class="modal" id="passwordModal">
         <div class="modal-content">
@@ -1276,6 +1314,14 @@
         const CORRECT_PASSWORD_HASH = '1feb5334d184e393d997e5cd92951f013b1d8ceffce37e329419586b86fe400d'; // SHA-256 of "jobshapedobject"
         let isAuthenticated = false;
         let pendingEditAction = null;
+        
+        // GitHub API configuration
+        let githubConfig = {
+            token: localStorage.getItem('githubToken') || '',
+            username: localStorage.getItem('githubUsername') || '',
+            repo: localStorage.getItem('githubRepo') || 'skill_sprint',
+            isConfigured: false
+        };
 
         // Authentication functions
         async function hashPassword(password) {
@@ -1380,6 +1426,209 @@
             document.querySelector('.sidebar-toggle').style.display = 'block';
             document.getElementById('editModeIndicator').style.display = 'block';
             document.getElementById('viewOnlyIndicator').style.display = 'none';
+        }
+
+        // GitHub API functions
+        async function checkGitHubConfig() {
+            githubConfig.isConfigured = !!(githubConfig.token && githubConfig.username);
+            return githubConfig.isConfigured;
+        }
+
+        async function getCurrentFileContent() {
+            try {
+                const response = await fetch(`https://api.github.com/repos/${githubConfig.username}/${githubConfig.repo}/contents/index.html`, {
+                    headers: {
+                        'Authorization': `token ${githubConfig.token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    return atob(data.content);
+                }
+                return null;
+            } catch (error) {
+                console.error('Error fetching current file:', error);
+                return null;
+            }
+        }
+
+        async function updateGitHubFile(content, commitMessage) {
+            try {
+                // Get current file to get SHA
+                const currentContent = await getCurrentFileContent();
+                if (!currentContent) {
+                    throw new Error('Could not fetch current file content');
+                }
+
+                // Encode content to base64
+                const encodedContent = btoa(unescape(encodeURIComponent(content)));
+
+                const response = await fetch(`https://api.github.com/repos/${githubConfig.username}/${githubConfig.repo}/contents/index.html`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${githubConfig.token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: commitMessage,
+                        content: encodedContent,
+                        sha: await getFileSHA()
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    return { success: true, commit: data.commit };
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Failed to update file');
+                }
+            } catch (error) {
+                console.error('Error updating GitHub file:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        async function getFileSHA() {
+            try {
+                const response = await fetch(`https://api.github.com/repos/${githubConfig.username}/${githubConfig.repo}/contents/index.html`, {
+                    headers: {
+                        'Authorization': `token ${githubConfig.token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.sha;
+                }
+                return null;
+            } catch (error) {
+                console.error('Error getting file SHA:', error);
+                return null;
+            }
+        }
+
+        async function saveAndPublishToGitHub() {
+            if (!await checkGitHubConfig()) {
+                showNotification('GitHub not configured. Please set up your token first.');
+                return;
+            }
+
+            // Show loading state
+            const publishBtn = document.getElementById('publishBtn');
+            if (publishBtn) {
+                publishBtn.textContent = 'Publishing...';
+                publishBtn.disabled = true;
+            }
+
+            try {
+                // Get current HTML content
+                const currentHTML = document.documentElement.outerHTML;
+                
+                // Create commit message with timestamp
+                const timestamp = new Date().toLocaleString();
+                const commitMessage = `Update Skill Sprint Canvas - ${timestamp}`;
+
+                // Update file on GitHub
+                const result = await updateGitHubFile(currentHTML, commitMessage);
+
+                if (result.success) {
+                    showNotification('Successfully published to GitHub! Changes will be live in 1-2 minutes.');
+                    updateLastPublishedTime();
+                } else {
+                    showNotification(`Failed to publish: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showNotification(`Error publishing: ${error.message}`, 'error');
+            } finally {
+                // Reset button state
+                if (publishBtn) {
+                    publishBtn.textContent = 'Save & Publish to GitHub';
+                    publishBtn.disabled = false;
+                }
+            }
+        }
+
+        function updateLastPublishedTime() {
+            const timestamp = new Date().toLocaleString();
+            localStorage.setItem('lastPublished', timestamp);
+            const indicator = document.getElementById('lastPublished');
+            if (indicator) {
+                indicator.textContent = `Last published: ${timestamp}`;
+            }
+        }
+
+        // GitHub configuration functions
+        function openGitHubConfig() {
+            document.getElementById('githubUsername').value = githubConfig.username;
+            document.getElementById('githubRepo').value = githubConfig.repo;
+            document.getElementById('githubToken').value = githubConfig.token;
+            document.getElementById('githubConfigModal').style.display = 'block';
+        }
+
+        function saveGitHubConfig() {
+            const username = document.getElementById('githubUsername').value.trim();
+            const repo = document.getElementById('githubRepo').value.trim();
+            const token = document.getElementById('githubToken').value.trim();
+
+            if (!username || !repo || !token) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+
+            // Save to localStorage
+            localStorage.setItem('githubUsername', username);
+            localStorage.setItem('githubRepo', repo);
+            localStorage.setItem('githubToken', token);
+
+            // Update config
+            githubConfig.username = username;
+            githubConfig.repo = repo;
+            githubConfig.token = token;
+            githubConfig.isConfigured = true;
+
+            closeModal();
+            showNotification('GitHub configuration saved successfully!');
+        }
+
+        // Backup functions
+        function loadBackup() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const backupData = JSON.parse(e.target.result);
+                            applyCanvasData(backupData);
+                            showNotification('Backup loaded successfully!');
+                        } catch (error) {
+                            showNotification('Invalid backup file', 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+
+        function exportCanvas() {
+            const dataStr = JSON.stringify(canvasData, null, 2);
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `skill-sprint-backup-${timestamp}.json`;
+            link.click();
+            showNotification('Backup exported successfully!');
         }
 
         // Initialize the application
