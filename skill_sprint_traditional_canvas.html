@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Sprint CIC - Business Model Canvas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            padding: 20px;
+            line-height: 1.4;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #4a5568;
+            font-size: 1.2em;
+        }
+
+        .intro {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .intro h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .intro-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .intro-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .intro-card p {
+            font-size: 0.95em;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .canvas-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .canvas-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .canvas-title h2 {
+            color: #2d3748;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .canvas-subtitle {
+            color: #4a5568;
+            font-style: italic;
+        }
+
+        .business-model-canvas {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 3px;
+            background: #e2e8f0;
+            border: 3px solid #2d3748;
+            margin: 0 auto;
+            max-width: 1400px;
+            min-height: 800px;
+        }
+
+        .canvas-section {
+            background: #ffffff;
+            padding: 15px;
+            border: 1px solid #cbd5e0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 0.9em;
+            color: #2d3748;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-content {
+            font-size: 0.8em;
+            line-height: 1.3;
+            flex: 1;
+        }
+
+        .content-item {
+            background: #fef5e7;
+            border: 1px solid #f6e05e;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 8px;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .content-item::before {
+            content: "•";
+            color: #d69e2e;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+
+        .item-title {
+            font-weight: bold;
+            color: #744210;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .item-desc {
+            color: #2d3748;
+            font-size: 0.95em;
+        }
+
+        .sources {
+            font-size: 0.7em;
+            color: #718096;
+            margin-top: 3px;
+            font-style: italic;
+        }
+
+        /* Grid positioning - exact match to traditional canvas */
+        .key-partners {
+            grid-column: 1;
+            grid-row: 1 / 3;
+        }
+
+        .key-activities {
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .value-propositions {
+            grid-column: 3;
+            grid-row: 1 / 3;
+            background: #fef5e7 !important;
+            border: 2px solid #d69e2e !important;
+        }
+
+        .customer-relationships {
+            grid-column: 4;
+            grid-row: 1;
+        }
+
+        .customer-segments {
+            grid-column: 5;
+            grid-row: 1 / 3;
+        }
+
+        .key-resources {
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        .channels {
+            grid-column: 4;
+            grid-row: 2;
+        }
+
+        .cost-structure {
+            grid-column: 1 / 4;
+            grid-row: 3;
+        }
+
+        .revenue-streams {
+            grid-column: 4 / 6;
+            grid-row: 3;
+        }
+
+        /* Color coding for different sections */
+        .key-partners .section-header { border-bottom-color: #9f7aea; }
+        .key-activities .section-header { border-bottom-color: #4c51bf; }
+        .value-propositions .section-header { border-bottom-color: #e53e3e; }
+        .customer-relationships .section-header { border-bottom-color: #38a169; }
+        .customer-segments .section-header { border-bottom-color: #00b5d8; }
+        .key-resources .section-header { border-bottom-color: #805ad5; }
+        .channels .section-header { border-bottom-color: #3182ce; }
+        .cost-structure .section-header { border-bottom-color: #d69e2e; }
+        .revenue-streams .section-header { border-bottom-color: #38a169; }
+
+        @media (max-width: 1200px) {
+            .business-model-canvas {
+                min-height: 900px;
+                font-size: 0.9em;
+            }
+            
+            .canvas-section {
+                padding: 12px;
+            }
+            
+            .content-item {
+                padding: 6px;
+                margin-bottom: 6px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .business-model-canvas {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(6, auto);
+                min-height: 1400px;
+            }
+            
+            .key-partners { grid-column: 1; grid-row: 1; }
+            .key-activities { grid-column: 2; grid-row: 1; }
+            .value-propositions { grid-column: 1 / 3; grid-row: 2; }
+            .customer-relationships { grid-column: 1; grid-row: 3; }
+            .customer-segments { grid-column: 2; grid-row: 3; }
+            .key-resources { grid-column: 1; grid-row: 4; }
+            .channels { grid-column: 2; grid-row: 4; }
+            .cost-structure { grid-column: 1; grid-row: 5; }
+            .revenue-streams { grid-column: 2; grid-row: 5; }
+        }
+
+        @media (max-width: 600px) {
+            .canvas-section {
+                padding: 10px;
+            }
+            
+            .section-title {
+                font-size: 0.8em;
+            }
+            
+            .section-content {
+                font-size: 0.75em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Skill Sprint CIC</h1>
+        <p>Business Model Canvas - Community Interest Company & Micro-Enterprise Incubator</p>
+    </div>
+
+    <div class="intro">
+        <h2>Skill Sprint CIC: Bridging the Experience Gap</h2>
+        <p><strong>Skill Sprint CIC</strong> is a Community Interest Company and micro-enterprise incubator designed to solve the "no experience, no job" paradox facing young people aged 16-25. We create ethical pathways from education to employment through AI-accelerated skills development and real-world work experience.</p>
+        
+        <div class="intro-grid">
+            <div class="intro-card">
+                <h4>🎯 Our Mission</h4>
+                <p>Transform young people into "job-shaped objects" by providing structured professional experience, real deliverables, and legitimate CV credentials.</p>
+            </div>
+            <div class="intro-card">
+                <h4>🤖 AI-Powered Learning</h4>
+                <p>Leverage cutting-edge AI tools (ChatGPT, Claude, Grok) to accelerate skills development and project delivery, giving participants a competitive edge.</p>
+            </div>
+            <div class="intro-card">
+                <h4>🏢 Professional Environment</h4>
+                <p>Operate as a legitimate business with proper governance, Google Workspace infrastructure, and professional mentoring relationships.</p>
+            </div>
+            <div class="intro-card">
+                <h4>💡 Social Impact</h4>
+                <p>As a CIC, all surplus is reinvested into supporting more young people, ensuring sustainable community benefit and ethical practice.</p>
+            </div>
+        </div>
+        
+        <p style="margin-top: 20px; font-style: italic; color: #4a5568;">Unlike traditional training programs or exploitative internships, Skill Sprint provides safe, structured, and productive work experiences that result in tangible portfolio pieces and professional references that employers trust.</p>
+    </div>
+
+    <div class="canvas-container">
+        <div class="canvas-title">
+            <h2>Skill Sprint CIC</h2>
+            <p class="canvas-subtitle">Ethical skills acceleration through AI-powered micro-enterprise incubation</p>
+        </div>
+
+        <div class="business-model-canvas">
+            <div class="canvas-section key-partners">
+                <div class="section-header">
+                    <span class="section-icon">🤝</span>
+                    <span class="section-title">Key Partners</span>
+                </div>
+                <div class="section-content">
+                    <div class="content-item">
+                        <span class="item-title">Founding Team</span>
+                        <div class="item-desc">Chris (Strategy/Finance/AI), Olly (Operations/Digital/Origin Story)</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Family & Friends Network</span>
+                        <div class="item-desc">Project management support (Dad), specialized skills (Tom, Ben), mentorship roles</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Community Organizations</span>
+                        <div class="item-desc">Grant providers, youth development organizations, educational institutions</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-section key-activities">
+                <div class="section-header">
+                    <span class="section-icon">⚙️</span>
+                    <span class="section-title">Key Activities</span>
+                </div>
+                <div class="section-content">
+                    <div class="content-item">
+                        <span class="item-title">Governance & Compliance</span>
+                        <div class="item-desc">CIC registration, Companies House status, legal/finance separation, annual reporting</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Professional Role Creation</span>
+                        <div class="item-desc">Defining job titles (Digital Marketing Assistant, Chief Jingles Officer, Project Coordinator)</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Infrastructure Development</span>
+                        <div class="item-desc">IT/Google Workspace setup, website development, portfolio showcase systems</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-section value-propositions">
+                <div class="section-header">
+                    <span class="section-icon">💎</span>
+                    <span class="section-title">Value Propositions</span>
+                </div>
+                <div class="section-content">
+                    <div class="content-item">
+                        <span class="item-title">Job-Shaped Experience</span>
+                        <div class="item-desc">Training young people to be "job-shaped objects" by teaching professional work rules and structure</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">CV Gold/Portfolio</span>
+                        <div class="item-desc">Real deliverables (websites, campaigns, reports) and legitimate HR proof references</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Safe, Structured Environment</span>
+                        <div class="item-desc">Low-pressure, mentored space without exploitation or "fake internship" stress</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">AI Acceleration</span>
+                        <div class="item-desc">Intelligent AI tool integration for accelerated learning and competitive advantage</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-section customer-relationships">
+                <div class="section-header">
+                    <span class="section-icon">❤️</span>
+                    <span class="section-title">Customer Relationships</span>
+                </div>
+                <div class="section-content">
+                    <div class="content-item">
+                        <span class="item-title">Mentoring & Coaching</span>
+                        <div class="item-desc">Intensive one-on-one and group guidance via "Karen and Chris" model</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Programmatic Structure</span>
+                        <div class="item-desc">Forge Sprints using Autonomy Ladder and STICK method for progress tracking</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Alumni Model</span>
+                        <div class="item-desc">Graduates transition to voluntary mentor roles for long-term CV credibility</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-section customer-segments">
+                <div class="section-header">
+                    <span class="section-icon">👥</span>
+                    <span class="section-title">Customer Segments</span>
+                </div>
+                <div class="section-content">
+                    <div class="content-item">
+                        <span class="item-title">Target Youth</span>
+                        <div class="item-desc">Ages 16-25 lacking traditional work experience, struggling with "no experience, no job" paradox</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">HR/Employers</span>
+                        <div class="item-desc">Companies and recruiters seeking trained and vetted talent pipeline with demonstrable skills</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Community/Grant Organizations</span>
+                        <div class="item-desc">Organizations supporting youth employability and social mobility initiatives</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-section key-resources">
+                <div class="section-header">
+                    <span class="section-icon">🔧</span>
+                    <span class="section-title">Key Resources</span>
+                </div>
+                <div class="section-content">
+                    <div class="content-item">
+                        <span class="item-title">Human Capital</span>
+                        <div class="item-desc">Founders (Chris & Olly), HR Expertise (Karen), Specialized Mentors</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Financial Backing</span>
+                        <div class="item-desc">Chris's personal funding (Director's Loan) for initial 3-month feasibility phase</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Technology Infrastructure</span>
+                        <div class="item-desc">Google Workspace, AI tools (ChatGPT, Claude, Grok), domain names (.org preferred)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-section channels">
+                <div class="section-header">
+                    <span class="section-icon">🚀</span>
+                    <span class="section-title">Channels</span>
+                </div>
+                <div class="section-content">
+                    <div class="content-item">
+                        <span class="item-title">Digital Presence</span>
+                        <div class="item-desc">Website, LinkedIn, Instagram for professional credibility and authentic storytelling</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Personal Network</span>
+                        <div class="item-desc">Initial participant recruitment via Olly's friends and family during pilot phase</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Professional Outreach</span>
+                        <div class="item-desc">Universities, conferences, potential mentors, business card networking</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-section cost-structure">
+                <div class="section-header">
+                    <span class="section-icon">💰</span>
+                    <span class="section-title">Cost Structure</span>
+                </div>
+                <div class="section-content">
+                    <div class="content-item">
+                        <span class="item-title">Living Expenses</span>
+                        <div class="item-desc">Funding Olly's basic living costs during initial feasibility period</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Operational Costs</span>
+                        <div class="item-desc">CIC registration fee (£55), minimal travel expenses, equipment, domain and web hosting</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Program Costs</span>
+                        <div class="item-desc">Participant stipends, materials, mentor compensation, workspace requirements</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-section revenue-streams">
+                <div class="section-header">
+                    <span class="section-icon">💵</span>
+                    <span class="section-title">Revenue Streams</span>
+                </div>
+                <div class="section-content">
+                    <div class="content-item">
+                        <span class="item-title">Grants</span>
+                        <div class="item-desc">Community, charity, youth development, and educational grants</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Corporate Sponsorships</span>
+                        <div class="item-desc">Local business funding for talent pipeline development or PR benefit</div>
+                    </div>
+                    <div class="content-item">
+                        <span class="item-title">Reinvested Funds</span>
+                        <div class="item-desc">All surplus reinvested into youth support (CIC non-profit legal requirement)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
