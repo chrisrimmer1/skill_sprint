@@ -1508,13 +1508,22 @@
         }
 
         async function saveAndPublishToGitHub() {
+            const publishBtn = document.getElementById('publishBtn');
+            
+            // Check if button is already in publishing state
+            if (publishBtn && publishBtn.disabled) {
+                console.log('Publish already in progress, resetting...');
+                resetPublishButton();
+                return;
+            }
+            
             if (!await checkGitHubConfig()) {
-                showNotification('GitHub not configured. Please set up your token first.');
+                showNotification('GitHub not configured. Please configure in settings first.', 'error');
+                openGitHubConfig();
                 return;
             }
 
             // Show loading state
-            const publishBtn = document.getElementById('publishBtn');
             if (publishBtn) {
                 publishBtn.textContent = 'Publishing...';
                 publishBtn.disabled = true;
@@ -1522,14 +1531,15 @@
 
             // Add timeout protection
             const timeoutId = setTimeout(() => {
-                if (publishBtn) {
-                    publishBtn.textContent = 'Save & Publish to GitHub';
-                    publishBtn.disabled = false;
-                }
-                showNotification('Publishing timed out. Please try again.', 'error');
+                console.error('Publishing timed out after 30 seconds');
+                resetPublishButton();
+                showNotification('Publishing timed out. Please check your GitHub configuration.', 'error');
             }, 30000); // 30 second timeout
 
             try {
+                console.log('Starting GitHub publish...');
+                console.log('Config:', { username: githubConfig.username, repo: githubConfig.repo, hasToken: !!githubConfig.token });
+                
                 // Get current HTML content
                 const currentHTML = document.documentElement.outerHTML;
                 
@@ -1546,17 +1556,16 @@
                     showNotification('Successfully published to GitHub! Changes will be live in 1-2 minutes.');
                     updateLastPublishedTime();
                 } else {
+                    console.error('Publish failed:', result.error);
                     showNotification(`Failed to publish: ${result.error}`, 'error');
                 }
             } catch (error) {
                 clearTimeout(timeoutId);
+                console.error('Error publishing:', error);
                 showNotification(`Error publishing: ${error.message}`, 'error');
             } finally {
                 // Reset button state
-                if (publishBtn) {
-                    publishBtn.textContent = 'Save & Publish to GitHub';
-                    publishBtn.disabled = false;
-                }
+                resetPublishButton();
             }
         }
 
@@ -1660,6 +1669,21 @@
             loadCanvasData();
             makeContentEditable();
             updateStats();
+            
+            // Load last published time
+            const lastPublished = localStorage.getItem('lastPublished');
+            const indicator = document.getElementById('lastPublished');
+            if (lastPublished && indicator) {
+                indicator.textContent = `Last published: ${lastPublished}`;
+            }
+            
+            // Reset publish button on page load (in case it was stuck)
+            resetPublishButton();
+            
+            // Load GitHub config
+            if (githubConfig.token && githubConfig.username) {
+                githubConfig.isConfigured = true;
+            }
             
             // Check authentication and set up mode
             isAuthenticated = checkAuth();
