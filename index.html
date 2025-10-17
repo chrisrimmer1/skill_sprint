@@ -842,29 +842,29 @@
     </style>
 </head>
 <body>
-    <div class="header header-editable" onclick="openHeaderModal()">
+    <div class="header header-editable" onclick="if(isAuthenticated) openHeaderModal(); else promptPassword(openHeaderModal);">
         <h1 id="headerTitle">Skill Sprint CIC</h1>
         <p id="headerSubtitle">Business Model Canvas - Community Interest Company & Micro-Enterprise Incubator</p>
     </div>
 
-    <div class="intro intro-editable" onclick="openIntroModal()">
+    <div class="intro intro-editable" onclick="if(isAuthenticated) openIntroModal(); else promptPassword(openIntroModal);">
         <h2 id="introTitle">Skill Sprint CIC: Bridging the Experience Gap</h2>
         <p id="introDescription"><strong>Skill Sprint CIC</strong> is a Community Interest Company and micro-enterprise incubator designed to solve the "no experience, no job" paradox facing young people aged 16-25. We create ethical pathways from education to employment through AI-accelerated skills development and real-world work experience.</p>
         
         <div class="intro-grid">
-            <div class="intro-card mission-card-editable" onclick="openMissionModal(0, event)">
+            <div class="intro-card mission-card-editable" onclick="if(isAuthenticated) openMissionModal(0, event); else promptPassword(() => openMissionModal(0, event));">
                 <h4 id="missionTitle0">🎯 Our Mission</h4>
                 <p id="missionDesc0">Transform young people into "job-shaped objects" by providing structured professional experience, real deliverables, and legitimate CV credentials.</p>
             </div>
-            <div class="intro-card mission-card-editable" onclick="openMissionModal(1, event)">
+            <div class="intro-card mission-card-editable" onclick="if(isAuthenticated) openMissionModal(1, event); else promptPassword(() => openMissionModal(1, event));">
                 <h4 id="missionTitle1">🤖 AI-Powered Learning</h4>
                 <p id="missionDesc1">Leverage cutting-edge AI tools (ChatGPT, Claude, Grok) to accelerate skills development and project delivery, giving participants a competitive edge.</p>
             </div>
-            <div class="intro-card mission-card-editable" onclick="openMissionModal(2, event)">
+            <div class="intro-card mission-card-editable" onclick="if(isAuthenticated) openMissionModal(2, event); else promptPassword(() => openMissionModal(2, event));">
                 <h4 id="missionTitle2">🏢 Professional Environment</h4>
                 <p id="missionDesc2">Operate as a legitimate business with proper governance, Google Workspace infrastructure, and professional mentoring relationships.</p>
             </div>
-            <div class="intro-card mission-card-editable" onclick="openMissionModal(3, event)">
+            <div class="intro-card mission-card-editable" onclick="if(isAuthenticated) openMissionModal(3, event); else promptPassword(() => openMissionModal(3, event));">
                 <h4 id="missionTitle3">💡 Social Impact</h4>
                 <p id="missionDesc3">As a CIC, all surplus is reinvested into supporting more young people, ensuring sustainable community benefit and ethical practice.</p>
             </div>
@@ -874,7 +874,7 @@
     </div>
 
     <div class="canvas-container">
-        <div class="canvas-title canvas-title-editable" onclick="openCanvasTitleModal()">
+        <div class="canvas-title canvas-title-editable" onclick="if(isAuthenticated) openCanvasTitleModal(); else promptPassword(openCanvasTitleModal);">
             <h2 id="canvasTitle">Skill Sprint CIC</h2>
             <p class="canvas-subtitle" id="canvasSubtitle">Ethical skills acceleration through AI-powered micro-enterprise incubation</p>
         </div>
@@ -1087,8 +1087,18 @@
         </p>
     </footer>
 
+    <!-- Mode Indicators -->
+    <div id="viewOnlyIndicator" style="position: fixed; top: 20px; left: 20px; background: rgba(102, 126, 234, 0.9); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500; z-index: 1001; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+        👁️ View Only Mode
+    </div>
+    
+    <div id="editModeIndicator" style="position: fixed; top: 20px; left: 20px; background: rgba(16, 185, 129, 0.9); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500; z-index: 1001; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); display: none;">
+        ✏️ Edit Mode Enabled
+        <button onclick="lockEditMode()" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 8px; border-radius: 12px; margin-left: 8px; cursor: pointer; font-size: 12px;">🔒 Lock</button>
+    </div>
+
     <!-- Sidebar Toggle Button -->
-    <button class="sidebar-toggle" onclick="toggleSidebar()">⚙️</button>
+    <button class="sidebar-toggle" onclick="if(isAuthenticated) toggleSidebar(); else promptPassword(toggleSidebar);" style="display: none;">⚙️</button>
 
     <!-- Interactive Sidebar -->
     <div class="sidebar" id="sidebar">
@@ -1234,6 +1244,25 @@
         </div>
     </div>
 
+    <!-- Password Prompt Modal -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🔒 Enter Edit Password</h3>
+                <button class="close-btn" onclick="closePasswordModal()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password:</label>
+                <input type="password" class="form-input" id="passwordInput" placeholder="Enter password to edit..." onkeypress="handlePasswordKeypress(event)">
+                <div id="passwordError" style="color: #ef4444; font-size: 0.9em; margin-top: 8px; display: none;">Incorrect password. Please try again.</div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closePasswordModal()">Cancel</button>
+                <button class="btn" onclick="validatePassword()">Unlock Editing</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Notification -->
     <div class="notification" id="notification"></div>
 
@@ -1242,12 +1271,130 @@
         let currentEditElement = null;
         let canvasData = {};
         let currentMissionIndex = null;
+        
+        // Password protection configuration
+        const CORRECT_PASSWORD_HASH = '8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4'; // SHA-256 of "SkillSprint2024"
+        let isAuthenticated = false;
+        let pendingEditAction = null;
+
+        // Authentication functions
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function checkAuth() {
+            return sessionStorage.getItem('skillSprintAuth') === 'true';
+        }
+
+        function promptPassword(editAction) {
+            pendingEditAction = editAction;
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+            document.getElementById('passwordError').style.display = 'none';
+        }
+
+        async function validatePassword() {
+            const input = document.getElementById('passwordInput').value;
+            const inputHash = await hashPassword(input);
+            
+            if (inputHash === CORRECT_PASSWORD_HASH) {
+                isAuthenticated = true;
+                sessionStorage.setItem('skillSprintAuth', 'true');
+                closePasswordModal();
+                unlockEditMode();
+                
+                if (pendingEditAction) {
+                    pendingEditAction();
+                    pendingEditAction = null;
+                }
+                
+                showNotification('Edit mode unlocked! You can now edit the canvas.');
+            } else {
+                document.getElementById('passwordError').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('passwordError').style.display = 'none';
+            pendingEditAction = null;
+        }
+
+        function handlePasswordKeypress(event) {
+            if (event.key === 'Enter') {
+                validatePassword();
+            }
+        }
+
+        function lockEditMode() {
+            isAuthenticated = false;
+            sessionStorage.removeItem('skillSprintAuth');
+            
+            // Hide all editing features
+            document.querySelectorAll('.editable').forEach(el => {
+                el.classList.remove('editable');
+                el.style.cursor = 'default';
+            });
+            
+            // Remove click handlers from header, intro, and canvas title
+            document.querySelector('.header-editable').onclick = null;
+            document.querySelector('.intro-editable').onclick = null;
+            document.querySelector('.canvas-title-editable').onclick = null;
+            
+            // Remove click handlers from mission cards
+            document.querySelectorAll('.mission-card-editable').forEach(card => {
+                card.onclick = null;
+            });
+            
+            document.querySelector('.sidebar-toggle').style.display = 'none';
+            document.getElementById('editModeIndicator').style.display = 'none';
+            document.getElementById('viewOnlyIndicator').style.display = 'block';
+            
+            showNotification('Edit mode locked. Canvas is now read-only.');
+        }
+
+        function unlockEditMode() {
+            // Show all editing features
+            document.querySelectorAll('.content-item').forEach(el => {
+                el.classList.add('editable');
+                el.style.cursor = 'pointer';
+            });
+            
+            // Restore click handlers
+            document.querySelector('.header-editable').onclick = function() { if(isAuthenticated) openHeaderModal(); else promptPassword(openHeaderModal); };
+            document.querySelector('.intro-editable').onclick = function() { if(isAuthenticated) openIntroModal(); else promptPassword(openIntroModal); };
+            document.querySelector('.canvas-title-editable').onclick = function() { if(isAuthenticated) openCanvasTitleModal(); else promptPassword(openCanvasTitleModal); };
+            
+            // Restore mission card click handlers
+            document.querySelectorAll('.mission-card-editable').forEach((card, index) => {
+                card.onclick = function(event) { if(isAuthenticated) openMissionModal(index, event); else promptPassword(() => openMissionModal(index, event)); };
+            });
+            
+            document.querySelector('.sidebar-toggle').style.display = 'block';
+            document.getElementById('editModeIndicator').style.display = 'block';
+            document.getElementById('viewOnlyIndicator').style.display = 'none';
+        }
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
             loadCanvasData();
             makeContentEditable();
             updateStats();
+            
+            // Check authentication and set up mode
+            isAuthenticated = checkAuth();
+            if (isAuthenticated) {
+                unlockEditMode();
+            } else {
+                lockEditMode();
+            }
         });
 
         // Make content items editable
@@ -1256,7 +1403,11 @@
             contentItems.forEach(item => {
                 item.classList.add('editable');
                 item.addEventListener('click', function() {
-                    openEditModal(this);
+                    if (isAuthenticated) {
+                        openEditModal(this);
+                    } else {
+                        promptPassword(() => openEditModal(this));
+                    }
                 });
             });
         }
@@ -1285,6 +1436,7 @@
             document.getElementById('introModal').style.display = 'none';
             document.getElementById('missionModal').style.display = 'none';
             document.getElementById('canvasTitleModal').style.display = 'none';
+            document.getElementById('passwordModal').style.display = 'none';
             currentEditElement = null;
             currentMissionIndex = null;
         }
@@ -1500,10 +1652,13 @@
 
         // Close modal when clicking outside
         window.onclick = function(event) {
-            const modal = document.getElementById('editModal');
-            if (event.target === modal) {
-                closeModal();
-            }
+            const modals = ['editModal', 'headerModal', 'introModal', 'missionModal', 'canvasTitleModal', 'passwordModal'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
         }
 
         // Header editing functions
