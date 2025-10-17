@@ -1702,14 +1702,23 @@
             contentItems.forEach(item => {
                 item.classList.add('editable');
                 
-                // Convert description text to list format
+                // Convert description to preserve line breaks
                 const descElement = item.querySelector('.item-desc');
-                if (descElement) {
-                    const text = descElement.textContent;
-                    // Split by common separators and create list items
-                    const lines = text.split(/[,;]|(?:\s+and\s+)/).filter(line => line.trim());
+                if (descElement && descElement.textContent) {
+                    // Replace <br> or newlines with actual line breaks for display
+                    const text = descElement.innerHTML.replace(/<br\s*\/?>/gi, '\n');
+                    const lines = text.split('\n').filter(line => line.trim());
+                    
                     if (lines.length > 1) {
-                        descElement.innerHTML = lines.map(line => `<div class="list-item">${line.trim()}</div>`).join('');
+                        descElement.innerHTML = lines.map(line => {
+                            const trimmed = line.trim();
+                            // Check if line already starts with - or •
+                            if (trimmed.startsWith('-') || trimmed.startsWith('•')) {
+                                return `<div class="list-item">${trimmed.substring(1).trim()}</div>`;
+                            } else {
+                                return `<div class="list-item">${trimmed}</div>`;
+                            }
+                        }).join('');
                     }
                 }
                 
@@ -1733,7 +1742,18 @@
         function openEditModal(element) {
             currentEditElement = element;
             const title = element.querySelector('.item-title').textContent;
-            const description = element.querySelector('.item-desc').textContent;
+            const descElement = element.querySelector('.item-desc');
+            
+            // Check if description has been converted to list items
+            const listItems = descElement.querySelectorAll('.list-item');
+            let description;
+            
+            if (listItems.length > 0) {
+                // Join list items with line breaks for editing
+                description = Array.from(listItems).map(item => '- ' + item.textContent.trim()).join('\n');
+            } else {
+                description = descElement.textContent;
+            }
             
             document.getElementById('editTitle').value = title;
             document.getElementById('editDescription').value = description;
@@ -1759,7 +1779,20 @@
                 const description = document.getElementById('editDescription').value;
                 
                 currentEditElement.querySelector('.item-title').textContent = title;
-                currentEditElement.querySelector('.item-desc').textContent = description;
+                const descElement = currentEditElement.querySelector('.item-desc');
+                
+                // Split description by line breaks
+                const lines = description.split('\n').map(s => s.trim()).filter(s => s);
+                
+                if (lines.length > 1) {
+                    // Convert each line to a list item, removing leading - or • if present
+                    descElement.innerHTML = lines.map(line => {
+                        const cleaned = line.replace(/^[-•]\s*/, '');
+                        return `<div class="list-item">${cleaned}</div>`;
+                    }).join('');
+                } else {
+                    descElement.textContent = description;
+                }
                 
                 saveCanvasData();
                 showNotification('Changes saved successfully!');
