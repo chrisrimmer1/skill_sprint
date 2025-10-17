@@ -1673,20 +1673,26 @@
                 // Convert description to preserve line breaks
                 const descElement = item.querySelector('.item-desc');
                 if (descElement && descElement.textContent) {
-                    // Replace <br> or newlines with actual line breaks for display
-                    const text = descElement.innerHTML.replace(/<br\s*\/?>/gi, '\n');
-                    const lines = text.split('\n').filter(line => line.trim());
+                    // Check if already formatted (has list-item or plain-line divs)
+                    const hasFormatting = descElement.querySelector('.list-item, .plain-line');
                     
-                    if (lines.length > 1) {
-                        descElement.innerHTML = lines.map(line => {
-                            const trimmed = line.trim();
-                            // Only add bullet if line starts with - or •
-                            if (trimmed.startsWith('-') || trimmed.startsWith('•')) {
-                                return `<div class="list-item">${trimmed.substring(1).trim()}</div>`;
-                            } else {
-                                return `<div class="plain-line">${trimmed}</div>`;
-                            }
-                        }).join('');
+                    if (!hasFormatting) {
+                        // Only format if not already formatted
+                        // Replace <br> or newlines with actual line breaks for display
+                        const text = descElement.innerHTML.replace(/<br\s*\/?>/gi, '\n');
+                        const lines = text.split('\n').filter(line => line.trim());
+                        
+                        if (lines.length > 1) {
+                            descElement.innerHTML = lines.map(line => {
+                                const trimmed = line.trim();
+                                // Only add bullet if line starts with - or •
+                                if (trimmed.startsWith('-') || trimmed.startsWith('•')) {
+                                    return `<div class="list-item">${trimmed.substring(1).trim()}</div>`;
+                                } else {
+                                    return `<div class="plain-line">${trimmed}</div>`;
+                                }
+                            }).join('');
+                        }
                     }
                 }
                 
@@ -1820,9 +1826,30 @@
                 const sectionId = section.className.split(' ')[1];
                 const items = [];
                 section.querySelectorAll('.content-item').forEach(item => {
+                    const descElement = item.querySelector('.item-desc');
+                    let description = '';
+                    
+                    // Check if description has list items or plain lines
+                    const listItems = descElement.querySelectorAll('.list-item');
+                    const plainLines = descElement.querySelectorAll('.plain-line');
+                    
+                    if (listItems.length > 0 || plainLines.length > 0) {
+                        // Preserve the structure with line breaks and dashes
+                        const allLines = Array.from(descElement.children);
+                        description = allLines.map(child => {
+                            if (child.classList.contains('list-item')) {
+                                return '- ' + child.textContent.trim();
+                            } else {
+                                return child.textContent.trim();
+                            }
+                        }).join('\n');
+                    } else {
+                        description = descElement.textContent;
+                    }
+                    
                     items.push({
                         title: item.querySelector('.item-title').textContent,
-                        description: item.querySelector('.item-desc').textContent
+                        description: description
                     });
                 });
                 sections[sectionId] = items;
