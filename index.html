@@ -175,7 +175,7 @@
 
         .business-model-canvas {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: repeat(5, 1fr);
             grid-template-rows: auto auto auto;
             gap: 2px;
             background: #000000;
@@ -183,6 +183,7 @@
             margin: 0 auto;
             max-width: 1400px;
             min-height: 800px;
+            grid-auto-flow: dense;
         }
 
         .canvas-section {
