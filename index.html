@@ -549,6 +549,10 @@
         .sidebar.open {
             right: 0;
         }
+        
+        .sidebar.hidden {
+            display: none;
+        }
 
         .sidebar-toggle {
             position: fixed;
@@ -1446,7 +1450,9 @@
                 card.onclick = null;
             });
             
+            // Hide sidebar and toggle
             document.querySelector('.sidebar-toggle').style.display = 'none';
+            document.getElementById('sidebar').classList.add('hidden');
             document.getElementById('editModeIndicator').style.display = 'none';
             document.getElementById('viewOnlyIndicator').style.display = 'block';
             
@@ -1470,7 +1476,10 @@
                 card.onclick = function(event) { if(isAuthenticated) openMissionModal(index, event); else promptPassword(() => openMissionModal(index, event)); };
             });
             
+            // Show sidebar toggle but keep sidebar closed by default
             document.querySelector('.sidebar-toggle').style.display = 'block';
+            document.getElementById('sidebar').classList.remove('hidden');
+            document.getElementById('sidebar').classList.remove('open');
             document.getElementById('editModeIndicator').style.display = 'block';
             document.getElementById('viewOnlyIndicator').style.display = 'none';
         }
