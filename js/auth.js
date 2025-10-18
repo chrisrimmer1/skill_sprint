@@ -87,6 +87,11 @@ function lockEditMode() {
         card.onclick = null;
     });
 
+    // Disable drag and drop
+    if (typeof disableDragAndDrop === 'function') {
+        disableDragAndDrop();
+    }
+
     // Hide sidebar and toggle
     document.querySelector('.sidebar-toggle').style.display = 'none';
     document.getElementById('sidebar').classList.add('hidden');
@@ -104,15 +109,20 @@ function unlockEditMode() {
         el.style.cursor = 'pointer';
     });
 
-    // Restore click handlers
-    document.querySelector('.header-editable').onclick = function() { if(isAuthenticated) openHeaderModal(); else promptPassword(openHeaderModal); };
-    document.querySelector('.intro-editable').onclick = function() { if(isAuthenticated) openIntroModal(); else promptPassword(openIntroModal); };
-    document.querySelector('.canvas-title-editable').onclick = function() { if(isAuthenticated) openCanvasTitleModal(); else promptPassword(openCanvasTitleModal); };
+    // Restore click handlers (no password prompts - just direct editing)
+    document.querySelector('.header-editable').onclick = openHeaderModal;
+    document.querySelector('.intro-editable').onclick = openIntroModal;
+    document.querySelector('.canvas-title-editable').onclick = openCanvasTitleModal;
 
-    // Restore mission card click handlers
+    // Restore mission card click handlers (no password prompts)
     document.querySelectorAll('.mission-card-editable').forEach((card, index) => {
-        card.onclick = function(event) { if(isAuthenticated) openMissionModal(index, event); else promptPassword(() => openMissionModal(index, event)); };
+        card.onclick = function(event) { openMissionModal(index, event); };
     });
+
+    // Enable drag and drop
+    if (typeof enableDragAndDrop === 'function') {
+        enableDragAndDrop();
+    }
 
     // Show sidebar toggle but keep sidebar closed by default
     document.querySelector('.sidebar-toggle').style.display = 'block';

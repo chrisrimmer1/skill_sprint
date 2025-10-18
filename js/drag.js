@@ -17,6 +17,7 @@ function initDragAndDrop() {
             dragClass: 'sortable-drag',
             filter: '.add-item-btn',
             preventOnFilter: true,
+            disabled: !isAuthenticated, // Disable if not authenticated
             onEnd: function(evt) {
                 // Save the new order
                 saveCanvasData();
@@ -25,6 +26,20 @@ function initDragAndDrop() {
             }
         });
         sortableInstances.push(sortable);
+    });
+}
+
+// Enable drag and drop
+function enableDragAndDrop() {
+    sortableInstances.forEach(instance => {
+        instance.option('disabled', false);
+    });
+}
+
+// Disable drag and drop
+function disableDragAndDrop() {
+    sortableInstances.forEach(instance => {
+        instance.option('disabled', true);
     });
 }
 

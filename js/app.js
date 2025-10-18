@@ -30,9 +30,8 @@ function makeContentEditable() {
                 e.stopPropagation();
                 if (isAuthenticated) {
                     deleteItem(item);
-                } else {
-                    promptPassword(() => deleteItem(item));
                 }
+                // In view-only mode, delete button is hidden via CSS
             };
             item.appendChild(deleteBtn);
         }
@@ -65,11 +64,11 @@ function makeContentEditable() {
             // Don't open modal if clicking delete button
             if (e.target.classList.contains('delete-btn')) return;
 
+            // Only allow editing if authenticated
             if (isAuthenticated) {
                 openEditModal(this);
-            } else {
-                promptPassword(() => openEditModal(this));
             }
+            // In view-only mode, clicks do nothing
         });
     });
 
@@ -83,9 +82,8 @@ function makeContentEditable() {
             addBtn.onclick = function() {
                 if (isAuthenticated) {
                     addItemToSection(section);
-                } else {
-                    promptPassword(() => addItemToSection(section));
                 }
+                // In view-only mode, button is hidden via CSS
             };
             sectionContent.appendChild(addBtn);
         }

@@ -167,9 +167,8 @@ function createContentItem(title, description) {
         e.stopPropagation();
         if (isAuthenticated) {
             deleteItem(itemDiv);
-        } else {
-            promptPassword(() => deleteItem(itemDiv));
         }
+        // In view-only mode, delete button is hidden via CSS
     };
 
     // Assemble the item
@@ -182,11 +181,11 @@ function createContentItem(title, description) {
     // Add click handler for editing
     itemDiv.addEventListener('click', function(e) {
         if (e.target.classList.contains('delete-btn')) return;
+        // Only allow editing if authenticated
         if (isAuthenticated) {
             openEditModal(this);
-        } else {
-            promptPassword(() => openEditModal(this));
         }
+        // In view-only mode, clicks do nothing
     });
 
     return itemDiv;

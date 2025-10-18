@@ -1,4 +1,6 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skill Sprint CIC - Interactive Business Model Canvas</title>
@@ -36,29 +38,29 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div class="header header-editable" onclick="if(isAuthenticated) openHeaderModal(); else promptPassword(openHeaderModal);">
+    <div class="header header-editable">
         <h1 id="headerTitle">Skill Sprint CIC</h1>
-        <p id="headerSubtitle">Business Model Canvas - Community Interest Company &amp; Micro-Enterprise Incubator</p>
+        <p id="headerSubtitle">Business Model Canvas - Community Interest Company & Micro-Enterprise Incubator</p>
     </div>
 
-    <div class="intro intro-editable" onclick="if(isAuthenticated) openIntroModal(); else promptPassword(openIntroModal);">
+    <div class="intro intro-editable">
         <h2 id="introTitle">Skill Sprint CIC: Bridging the Experience Gap</h2>
         <p id="introDescription">Skill Sprint CIC is a Community Interest Company and micro-enterprise incubator designed to solve the "no experience, no job" paradox facing young people aged 16-25. We create ethical pathways from education to employment through AI-accelerated skills development and real-world work experience.</p>
 
         <div class="intro-grid">
-            <div class="intro-card mission-card-editable" onclick="if(isAuthenticated) openMissionModal(0, event); else promptPassword(() =&gt; openMissionModal(0, event));">
+            <div class="intro-card mission-card-editable">
                 <h4 id="missionTitle0">🎯 Our Mission</h4>
                 <p id="missionDesc0">Transform young people into "job-shaped objects" by providing structured professional experience, real deliverables, and legitimate CV credentials.</p>
             </div>
-            <div class="intro-card mission-card-editable" onclick="if(isAuthenticated) openMissionModal(1, event); else promptPassword(() =&gt; openMissionModal(1, event));">
+            <div class="intro-card mission-card-editable">
                 <h4 id="missionTitle1">🤖 AI-Powered Learning</h4>
                 <p id="missionDesc1">Leverage cutting-edge AI tools (ChatGPT, Claude) to accelerate skills development and project delivery, giving participants a competitive edge.</p>
             </div>
-            <div class="intro-card mission-card-editable" onclick="if(isAuthenticated) openMissionModal(2, event); else promptPassword(() =&gt; openMissionModal(2, event));">
+            <div class="intro-card mission-card-editable">
                 <h4 id="missionTitle2">🏢 Professional Environment</h4>
                 <p id="missionDesc2">Operate as a legitimate business with proper governance, infrastructure and professional mentoring relationships.</p>
             </div>
-            <div class="intro-card mission-card-editable" onclick="if(isAuthenticated) openMissionModal(3, event); else promptPassword(() =&gt; openMissionModal(3, event));">
+            <div class="intro-card mission-card-editable">
                 <h4 id="missionTitle3">💡 Social Impact</h4>
                 <p id="missionDesc3">As a CIC, all surplus is reinvested into supporting more young people, ensuring sustainable community benefit and ethical practice.</p>
             </div>
@@ -68,7 +70,7 @@
     </div>
 
     <div class="canvas-container">
-        <div class="canvas-title canvas-title-editable" onclick="if(isAuthenticated) openCanvasTitleModal(); else promptPassword(openCanvasTitleModal);">
+        <div class="canvas-title canvas-title-editable">
             <h2 id="canvasTitle">Skill Sprint CIC</h2>
             <p class="canvas-subtitle" id="canvasSubtitle">Ethical skills acceleration through AI-powered micro-enterprise incubation</p>
         </div>
@@ -79,7 +81,29 @@
                     <span class="section-icon">🤝</span>
                     <span class="section-title">Key Partners</span>
                 </div>
-                <div class="section-content"><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Founding Team</span><div class="item-desc"><div class="list-item">Chris (Strategy/Finance/AI)</div><div class="list-item">Olly (Operations/Digital/Origin Story)</div></div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Family &amp; Friends Network</span><div class="item-desc">Project management support (Dad)specialized skills (TomBen)mentorship roles</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Community Organizations</span><div class="item-desc">Grant providersyouth development organizationseducational institutions</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">TEST</span><div class="item-desc">Click to edit this item</div></div><button class="delete-btn" title="Delete item">×</button></div><button class="add-item-btn">+ Add Item</button></div>
+                <div class="section-content">
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Founding Team</span>
+                            <div class="item-desc"><div class="list-item">Chris (Strategy/Finance/AI)</div><div class="list-item">Olly (Operations/Digital/Origin Story)</div></div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Family & Friends Network</span>
+                            <div class="item-desc">Project management support (Dad), specialized skills (Tom, Ben), mentorship roles</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Community Organizations</span>
+                            <div class="item-desc">Grant providers, youth development organizations, educational institutions</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="canvas-section key-activities">
@@ -87,7 +111,29 @@
                     <span class="section-icon">⚙️</span>
                     <span class="section-title">Key Activities</span>
                 </div>
-                <div class="section-content"><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Governance &amp; Compliance</span><div class="item-desc">CIC registrationCompanies House statuslegal/finance separationannual reporting</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Professional Role Creation</span><div class="item-desc">Defining job titles (Digital Marketing AssistantChief Jingles OfficerProject Coordinator)</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Infrastructure Development</span><div class="item-desc">IT/Google Workspace setupwebsite developmentportfolio showcase systems</div></div><button class="delete-btn" title="Delete item">×</button></div><button class="add-item-btn">+ Add Item</button></div>
+                <div class="section-content">
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Governance & Compliance</span>
+                            <div class="item-desc">CIC registration, Companies House status, legal/finance separation, annual reporting</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Professional Role Creation</span>
+                            <div class="item-desc">Defining job titles (Digital Marketing Assistant, Chief Jingles Officer, Project Coordinator)</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Infrastructure Development</span>
+                            <div class="item-desc">IT/Google Workspace setup, website development, portfolio showcase systems</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="canvas-section value-propositions">
@@ -95,7 +141,36 @@
                     <span class="section-icon">💎</span>
                     <span class="section-title">Value Propositions</span>
                 </div>
-                <div class="section-content"><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Job-Shaped Experience</span><div class="item-desc">Training young people to be "job-shaped objects" by teaching professional work rulesstructure</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">CV Gold/Portfolio</span><div class="item-desc">Real deliverables (websitescampaignsreports)legitimate HR proof references</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Safe, Structured Environment</span><div class="item-desc">Low-pressurementored space without exploitation or "fake internship" stress</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">AI Acceleration</span><div class="item-desc">Intelligent AI tool integration for accelerated learningcompetitive advantage</div></div><button class="delete-btn" title="Delete item">×</button></div><button class="add-item-btn">+ Add Item</button></div>
+                <div class="section-content">
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Job-Shaped Experience</span>
+                            <div class="item-desc">Training young people to be "job-shaped objects" by teaching professional work rules, structure</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">CV Gold/Portfolio</span>
+                            <div class="item-desc">Real deliverables (websites, campaigns, reports), legitimate HR proof references</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Safe, Structured Environment</span>
+                            <div class="item-desc">Low-pressure, mentored space without exploitation or "fake internship" stress</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">AI Acceleration</span>
+                            <div class="item-desc">Intelligent AI tool integration for accelerated learning, competitive advantage</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="canvas-section customer-relationships">
@@ -103,7 +178,29 @@
                     <span class="section-icon">❤️</span>
                     <span class="section-title">Customer Relationships</span>
                 </div>
-                <div class="section-content"><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Mentoring &amp; Coaching</span><div class="item-desc">Intensive one-on-onegroup guidance via "KarenChris" model</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Programmatic Structure</span><div class="item-desc">Forge Sprints using Autonomy LadderSTICK method for progress tracking</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Alumni Model</span><div class="item-desc">Graduates transition to voluntary mentor roles for long-term CV credibility</div></div><button class="delete-btn" title="Delete item">×</button></div><button class="add-item-btn">+ Add Item</button></div>
+                <div class="section-content">
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Mentoring & Coaching</span>
+                            <div class="item-desc">Intensive one-on-one, group guidance via "Karen, Chris" model</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Programmatic Structure</span>
+                            <div class="item-desc">Forge Sprints using Autonomy Ladder, STICK method for progress tracking</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Alumni Model</span>
+                            <div class="item-desc">Graduates transition to voluntary mentor roles for long-term CV credibility</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="canvas-section customer-segments">
@@ -111,7 +208,29 @@
                     <span class="section-icon">👥</span>
                     <span class="section-title">Customer Segments</span>
                 </div>
-                <div class="section-content"><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Target Youth</span><div class="item-desc">Ages 16-25 lacking traditional work experiencestruggling with "no experienceno job" paradox</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">HR/Employers</span><div class="item-desc">Companiesrecruiters seeking trainedvetted talent pipeline with demonstrable skills</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Community/Grant Organizations</span><div class="item-desc">Organizations supporting youth employabilitysocial mobility initiatives</div></div><button class="delete-btn" title="Delete item">×</button></div><button class="add-item-btn">+ Add Item</button></div>
+                <div class="section-content">
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Target Youth</span>
+                            <div class="item-desc">Ages 16-25 lacking traditional work experience, struggling with "no experience, no job" paradox</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">HR/Employers</span>
+                            <div class="item-desc">Companies, recruiters seeking trained, vetted talent pipeline with demonstrable skills</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Community/Grant Organizations</span>
+                            <div class="item-desc">Organizations supporting youth employability, social mobility initiatives</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="canvas-section key-resources">
@@ -119,7 +238,29 @@
                     <span class="section-icon">🔧</span>
                     <span class="section-title">Key Resources</span>
                 </div>
-                <div class="section-content"><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Human Capital</span><div class="item-desc">Founders (Chris &amp; Olly)HR Expertise (Karen)Specialized Mentors</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Financial Backing</span><div class="item-desc">Chris's personal funding (Director's Loan) for initial 3-month feasibility phase</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Technology Infrastructure</span><div class="item-desc">Google WorkspaceAI tools (ChatGPTClaudeGrok)domain names (.org preferred)</div></div><button class="delete-btn" title="Delete item">×</button></div><button class="add-item-btn">+ Add Item</button></div>
+                <div class="section-content">
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Human Capital</span>
+                            <div class="item-desc">Founders (Chris & Olly), HR Expertise (Karen), Specialized Mentors</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Financial Backing</span>
+                            <div class="item-desc">Chris's personal funding (Director's Loan) for initial 3-month feasibility phase</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Technology Infrastructure</span>
+                            <div class="item-desc">Google Workspace, AI tools (ChatGPT, Claude, Grok), domain names (.org preferred)</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="canvas-section channels">
@@ -127,7 +268,29 @@
                     <span class="section-icon">🚀</span>
                     <span class="section-title">Channels</span>
                 </div>
-                <div class="section-content"><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Digital Presence</span><div class="item-desc">WebsiteLinkedInInstagram for professional credibilityauthentic storytelling</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Personal Network</span><div class="item-desc">Initial participant recruitment via Olly's friendsfamily during pilot phase</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Professional Outreach</span><div class="item-desc">Universitiesconferencespotential mentorsbusiness card networking</div></div><button class="delete-btn" title="Delete item">×</button></div><button class="add-item-btn">+ Add Item</button></div>
+                <div class="section-content">
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Digital Presence</span>
+                            <div class="item-desc">Website, LinkedIn, Instagram for professional credibility, authentic storytelling</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Personal Network</span>
+                            <div class="item-desc">Initial participant recruitment via Olly's friends, family during pilot phase</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Professional Outreach</span>
+                            <div class="item-desc">Universities, conferences, potential mentors, business card networking</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="canvas-section cost-structure">
@@ -135,7 +298,29 @@
                     <span class="section-icon">💰</span>
                     <span class="section-title">Cost Structure</span>
                 </div>
-                <div class="section-content"><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Living Expenses</span><div class="item-desc">Funding Olly's basic living costs during initial feasibility period</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Operational Costs</span><div class="item-desc">CIC registration fee (£55)minimal travel expensesequipmentdomainweb hosting</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Program Costs</span><div class="item-desc">Participant stipendsmaterialsmentor compensationworkspace requirements</div></div><button class="delete-btn" title="Delete item">×</button></div><button class="add-item-btn">+ Add Item</button></div>
+                <div class="section-content">
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Living Expenses</span>
+                            <div class="item-desc">Funding Olly's basic living costs during initial feasibility period</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Operational Costs</span>
+                            <div class="item-desc">CIC registration fee (£55), minimal travel expenses, equipment, domain, web hosting</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Program Costs</span>
+                            <div class="item-desc">Participant stipends, materials, mentor compensation, workspace requirements</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="canvas-section revenue-streams">
@@ -143,7 +328,29 @@
                     <span class="section-icon">💵</span>
                     <span class="section-title">Revenue Streams</span>
                 </div>
-                <div class="section-content"><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Grants</span><div class="item-desc">Communitycharityyouth developmenteducational grants</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Corporate Sponsorships</span><div class="item-desc">Local business funding for talent pipeline development or PR benefit</div></div><button class="delete-btn" title="Delete item">×</button></div><div class="content-item editable" style="cursor: pointer;"><span class="drag-handle">⋮⋮</span><div class="content-item-content"><span class="item-title">Reinvested Funds</span><div class="item-desc">All surplus reinvested into youth support (CIC non-profit legal requirement)</div></div><button class="delete-btn" title="Delete item">×</button></div><button class="add-item-btn">+ Add Item</button></div>
+                <div class="section-content">
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Grants</span>
+                            <div class="item-desc">Community, charity, youth development, educational grants</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Corporate Sponsorships</span>
+                            <div class="item-desc">Local business funding for talent pipeline development or PR benefit</div>
+                        </div>
+                    </div>
+                    <div class="content-item editable" style="cursor: pointer;">
+                        <span class="drag-handle">⋮⋮</span>
+                        <div class="content-item-content">
+                            <span class="item-title">Reinvested Funds</span>
+                            <div class="item-desc">All surplus reinvested into youth support (CIC non-profit legal requirement)</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -163,6 +370,7 @@
     <!-- Mode Indicators -->
     <div id="viewOnlyIndicator" style="position: fixed; top: 20px; left: 20px; background: rgba(102, 126, 234, 0.9); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500; z-index: 1001; box-shadow: rgba(102, 126, 234, 0.3) 0px 4px 15px; display: none;">
         👁️ View Only Mode
+        <button onclick="promptPassword()" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 8px; border-radius: 12px; margin-left: 8px; cursor: pointer; font-size: 12px;">🔓 Unlock</button>
     </div>
 
     <div id="editModeIndicator" style="position: fixed; top: 20px; left: 20px; background: rgba(16, 185, 129, 0.9); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500; z-index: 1001; box-shadow: rgba(16, 185, 129, 0.3) 0px 4px 15px; display: block;">
@@ -171,7 +379,7 @@
     </div>
 
     <!-- Sidebar Toggle Button -->
-    <button class="sidebar-toggle" onclick="if(isAuthenticated) toggleSidebar(); else promptPassword(toggleSidebar);" style="display: block;">⚙️</button>
+    <button class="sidebar-toggle" onclick="toggleSidebar()" style="display: block;">⚙️</button>
 
     <!-- Interactive Sidebar -->
     <div class="sidebar open" id="sidebar">
@@ -179,7 +387,7 @@
 
         <div class="toolbar">
             <button class="btn" onclick="saveCanvasData(); showNotification('Canvas saved to browser storage!')">💾 Save Locally</button>
-            <button class="btn btn-success" id="publishBtn" onclick="saveAndPublishToGitHub()" disabled="">Publishing...</button>
+            <button class="btn btn-success" id="publishBtn" onclick="saveAndPublishToGitHub()">📤 Publish to GitHub</button>
             <button class="btn btn-secondary" onclick="exportCanvas()">📤 Export Backup</button>
         </div>
 
@@ -194,11 +402,7 @@
 
         <div class="section-stats">
             <strong>Canvas Statistics:</strong><br>
-            <span id="stats">
-        Total Items: 29<br>
-        Sections: 9<br>
-        Last Updated: 08:45:51
-    </span>
+            <span id="stats">Loading...</span>
         </div>
 
         <div class="export-options">
@@ -376,7 +580,7 @@
     </div>
 
     <!-- Notification -->
-    <div class="notification" id="notification">GitHub configuration saved successfully!</div>
+    <div class="notification" id="notification">Changes saved successfully!</div>
 
     <!-- External JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
@@ -387,6 +591,5 @@
     <script src="js/github.js"></script>
     <script src="js/drag.js"></script>
     <script src="js/app.js"></script>
-
-
-<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"></div></body></html>
+</body>
+</html>
