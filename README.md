@@ -1,5 +1,6 @@
 # Skill Sprint CIC - Interactive Business Model Canvas
 
+
 ![Skill Sprint CIC](https://img.shields.io/badge/Skill%20Sprint-CIC-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Status](https://img.shields.io/badge/Status-Live-brightgreen)
