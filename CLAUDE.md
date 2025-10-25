@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Skill Sprint CIC** is an interactive Business Model Canvas application for a Community Interest Company focused on youth employment. The project is a single-page web application built with vanilla JavaScript, HTML, and CSS that enables real-time editing of business model canvas content with persistence and GitHub publishing capabilities.
+**Skill Sprint CIC** is an interactive Business Model Canvas application for a Community Interest Company focused on youth employment. The project is a single-page web application built with vanilla JavaScript, HTML, and CSS that enables real-time editing of business model canvas content with persistence and GitHub publishing capabilities.xx
 
 ## Architecture
 
